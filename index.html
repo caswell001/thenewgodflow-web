@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The New God Flow</title>
+  <meta name="description" content="A book by Michael Caswell">
+  <meta property="og:title" content="The New God Flow">
+  <meta property="og:description" content="A book by Michael Caswell">
+  <meta property="og:image" content="https://www.thenewgodflow.com/og-image.png">
+  <meta property="og:url" content="https://www.thenewgodflow.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The New God Flow">
+  <meta name="twitter:description" content="A book by Michael Caswell">
+  <meta name="twitter:image" content="https://www.thenewgodflow.com/og-image.png">
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2300d4ff;stop-opacity:1' /><stop offset='50%' style='stop-color:%23a366ff;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ff00cc;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='%23060606'/><rect x='20' y='15' width='60' height='70' rx='3' fill='url(%23g)' opacity='0.9'/><rect x='24' y='19' width='52' height='62' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.3' rx='2'/></svg>">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #060606 0%, #0a0a0a 50%, #050505 100%);
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 560px;
+      text-align: center;
+    }
+    
+    .book-wrapper {
+      perspective: 1200px;
+      margin-bottom: 48px;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    .book {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      border-radius: 2px;
+      box-shadow: 
+        0 20px 60px rgba(0, 212, 255, 0.15),
+        0 40px 80px rgba(163, 102, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      image-rendering: crisp-edges;
+    }
+    
+    h1 {
+      font-size: 48px;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #a8d8ff 50%, #ff88ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 8s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+    
+    .tagline {
+      font-size: 15px;
+      color: #999999;
+      margin-bottom: 48px;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+    
+    .form-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 32px 24px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .form-label {
+      font-size: 13px;
+      color: #888888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    
+    .form-group {
+      margin-bottom: 12px;
+    }
+    
+    .form-group:last-of-type {
+      margin-bottom: 0;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #ffffff;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    
+    input::placeholder {
+      color: #555555;
+    }
+    
+    input:hover {
+      border-color: rgba(0, 212, 255, 0.3);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: rgba(0, 212, 255, 0.6);
+      background: rgba(0, 212, 255, 0.03);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .form-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    @media (max-width: 480px) {
+      .form-inputs {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #00d4ff 0%, #a366ff 100%);
+      border: none;
+      border-radius: 6px;
+      color: #000000;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      font-family: inherit;
+    }
+    
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .message {
+      margin-top: 12px;
+      font-size: 13px;
+      min-height: 16px;
+    }
+    
+    .message.success {
+      color: #00ff88;
+    }
+    
+    .message.error {
+      color: #ff6b6b;
+    }
+    
+    .footer {
+      margin-top: 48px;
+      font-size: 12px;
+      color: #555555;
+    }
+    
+    .footer a {
+      color: #888888;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .footer a:hover {
+      color: #aaaaaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="book-wrapper">
+      <img src="/book.jpg" alt="The New God Flow" class="book">
+    </div>
+    
+    <h1>The New God Flow</h1>
+    <p class="tagline">A book by Michael Caswell</p>
+    
+    <div class="form-section">
+      <label class="form-label">Get notified when it ships</label>
+      
+      <form id="signup-form">
+        <div class="form-inputs">
+          <div class="form-group">
+            <input 
+              type="text" 
+              id="firstName" 
+              placeholder="First name" 
+              required
+            >
+          </div>
+          <div class="form-group">
+            <input 
+              type="email" 
+              id="email" 
+              placeholder="Email" 
+              required
+            >
+          </div>
+        </div>
+        
+        <button type="submit">Join the list</button>
+        <div id="message" class="message"></div>
+      </form>
+    </div>
+    
+    <div class="footer">
+      <p>No spam. Just the release.</p>
+    </div>
+  </div>
+  
+  <script>
+    const form = document.getElementById('signup-form');
+    const messageEl = document.getElementById('message');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value.trim();
+      const firstName = document.getElementById('firstName').value.trim();
+      const button = form.querySelector('button');
+      
+      messageEl.textContent = '';
+      messageEl.className = 'message';
+      button.disabled = true;
+      
+      try {
+        const res = await fetch('https://api.thenewgodflow.com/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, firstName })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success || data.message) {
+          messageEl.textContent = data.message || 'You\'re in!';
+          messageEl.className = 'message success';
+          form.reset();
+          setTimeout(() => {
+            messageEl.textContent = '';
+            button.disabled = false;
+          }, 4000);
+        } else {
+          throw new Error(data.error || 'Something went wrong');
+        }
+      } catch (err) {
+        messageEl.textContent = err.message || 'Error subscribing. Please try again.';
+        messageEl.className = 'message error';
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
