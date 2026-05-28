@@ -3,16 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The New God Flow</title>
-  <meta name="description" content="A book by Michael Caswell">
+  <title>The New God Flow · A book by Michael Caswell</title>
+  <meta name="description" content="The New God Flow is the first book by Michael Caswell. Sign up to be notified the day it is released. No spam, just the release.">
   <meta property="og:title" content="The New God Flow">
-  <meta property="og:description" content="A book by Michael Caswell">
+  <meta property="og:description" content="The first book by Michael Caswell. Sign up to be notified the day it is released.">
   <meta property="og:image" content="https://www.thenewgodflow.com/og-image.png">
   <meta property="og:url" content="https://www.thenewgodflow.com">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The New God Flow">
   <meta name="twitter:description" content="A book by Michael Caswell">
   <meta name="twitter:image" content="https://www.thenewgodflow.com/og-image.png">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Michael Caswell">
+  <meta property="og:type" content="book">
+  <meta property="og:site_name" content="The New God Flow">
+  <link rel="canonical" href="https://www.thenewgodflow.com/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "The New God Flow",
+    "author": { "@type": "Person", "name": "Michael Caswell", "url": "https://www.thenewgodflow.com/author/" },
+    "url": "https://www.thenewgodflow.com/",
+    "image": "https://www.thenewgodflow.com/og-image.png",
+    "description": "The New God Flow is the first book by Michael Caswell. Sign up to be notified when it is released."
+  }
+  </script>
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%2300d4ff;stop-opacity:1' /><stop offset='50%' style='stop-color:%23a366ff;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ff00cc;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='%23060606'/><rect x='20' y='15' width='60' height='70' rx='3' fill='url(%23g)' opacity='0.9'/><rect x='24' y='19' width='52' height='62' fill='none' stroke='%23ffffff' stroke-width='1' opacity='0.3' rx='2'/></svg>">
   
@@ -217,6 +233,66 @@
     .footer a:hover {
       color: #aaaaaa;
     }
+
+    .author-cta {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 12px 26px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+      background: rgba(255,255,255,.03);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .5px;
+      transition: all .2s ease;
+    }
+    .author-cta:hover {
+      border-color: rgba(0,212,255,.5);
+      background: rgba(0,212,255,.05);
+      transform: translateY(-1px);
+    }
+
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,.7); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center; padding: 24px;
+      opacity: 0; pointer-events: none; transition: opacity .3s ease;
+    }
+    .modal-overlay.shown { opacity: 1; pointer-events: auto; }
+    .modal {
+      max-width: 380px; width: 100%; text-align: center;
+      background: linear-gradient(135deg,#0d0d0d,#111);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 14px;
+      padding: 36px 28px; transform: translateY(12px); transition: transform .3s ease;
+    }
+    .modal-overlay.shown .modal { transform: translateY(0); }
+    .modal .check {
+      width: 48px; height: 48px; margin: 0 auto 18px;
+      border-radius: 50%; background: linear-gradient(135deg,#00d4ff,#a366ff);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .modal h3 {
+      font-size: 22px; font-weight: 300; margin-bottom: 10px;
+      background: linear-gradient(135deg,#fff,#a8d8ff 60%,#ff88ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .modal p { font-size: 14px; color: #aaa; margin-bottom: 24px; line-height: 1.6; }
+    .modal .modal-btn {
+      display: block; width: 100%; padding: 13px; margin-bottom: 10px;
+      border-radius: 8px; font-size: 14px; font-weight: 600; letter-spacing: .5px;
+      text-decoration: none; cursor: pointer; border: none; font-family: inherit;
+      transition: all .2s ease;
+    }
+    .modal .primary {
+      background: linear-gradient(135deg,#00d4ff,#a366ff); color: #000;
+    }
+    .modal .primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,212,255,.3); }
+    .modal .secondary {
+      background: transparent; color: #888; border: 1px solid rgba(255,255,255,.1);
+    }
+    .modal .secondary:hover { color: #ccc; border-color: rgba(255,255,255,.2); }
   </style>
 </head>
 <body>
@@ -258,7 +334,19 @@
     
     <div class="footer">
       <p>No spam. Just the release.</p>
-      <p style="margin-top:10px;"><a href="/author">About the author</a></p>
+      <p style="margin-top:14px;"><a class="author-cta" href="/author">About the author &nbsp;&rarr;</a></p>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal">
+      <div class="check">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#000" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h3>You're on the list</h3>
+      <p>Check your inbox for a confirmation. While you're here, want to learn about the author?</p>
+      <a class="modal-btn primary" href="/author">Learn about the author</a>
+      <button class="modal-btn secondary" id="modal-close">Maybe later</button>
     </div>
   </div>
   
@@ -290,6 +378,7 @@
           messageEl.textContent = data.message || 'You\'re in!';
           messageEl.className = 'message success';
           form.reset();
+          document.getElementById('success-modal').classList.add('shown');
           setTimeout(() => {
             messageEl.textContent = '';
             button.disabled = false;
@@ -302,6 +391,13 @@
         messageEl.className = 'message error';
         button.disabled = false;
       }
+    });
+
+    document.getElementById('modal-close').addEventListener('click', () => {
+      document.getElementById('success-modal').classList.remove('shown');
+    });
+    document.getElementById('success-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'success-modal') e.target.classList.remove('shown');
     });
   </script>
 </body>

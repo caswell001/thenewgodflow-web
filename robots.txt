@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /ye
+
+Sitemap: https://www.thenewgodflow.com/sitemap.xml
