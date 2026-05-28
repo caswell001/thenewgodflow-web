@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Author · The New God Flow</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%2300d4ff'/><stop offset='50%25' style='stop-color:%23a366ff'/><stop offset='100%25' style='stop-color:%23ff00cc'/></linearGradient></defs><rect width='100' height='100' fill='%23060606'/><rect x='20' y='15' width='60' height='70' rx='3' fill='url(%23g)' opacity='0.9'/></svg>">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: linear-gradient(135deg,#060606 0%,#0a0a0a 50%,#050505 100%);
+      color:#fff; min-height:100vh;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+      line-height:1.7;
+    }
+    /* ---- password gate ---- */
+    .gate {
+      position:fixed; inset:0; z-index:1000;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,#060606,#0a0a0a); padding:24px;
+      transition:opacity .4s ease;
+    }
+    .gate.hidden { display:none; }
+    .gate .lock {
+      width:44px; height:44px; margin-bottom:22px; border-radius:10px;
+      background:linear-gradient(135deg,#00d4ff,#a366ff); opacity:.92;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .gate .lock svg { width:22px; height:22px; }
+    .gate h2 { font-weight:300; font-size:18px; color:#bbb; margin-bottom:24px; letter-spacing:.4px; }
+    .gate input {
+      width:100%; max-width:280px; padding:13px 16px;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+      border-radius:6px; color:#fff; font-size:16px; text-align:center; letter-spacing:3px;
+      font-family:inherit; transition:all .2s ease;
+    }
+    .gate input::placeholder { color:#555; letter-spacing:1px; }
+    .gate input:focus { outline:none; border-color:rgba(0,212,255,.6); background:rgba(0,212,255,.03); box-shadow:0 0 0 3px rgba(0,212,255,.1); }
+    .gate button {
+      margin-top:14px; width:100%; max-width:280px; padding:13px;
+      background:linear-gradient(135deg,#00d4ff,#a366ff); border:none; border-radius:6px;
+      color:#000; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:1px;
+      cursor:pointer; font-family:inherit; transition:all .2s ease;
+    }
+    .gate button:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(0,212,255,.3); }
+    .gate .err { color:#ff6b6b; font-size:13px; margin-top:16px; min-height:18px; }
+    /* ---- content ---- */
+    .content { display:none; max-width:680px; margin:0 auto; padding:72px 24px 96px; }
+    .content.shown { display:block; animation:fade .5s ease; }
+    @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+    .back { color:#777; text-decoration:none; font-size:13px; letter-spacing:.5px; transition:color .2s; }
+    .back:hover { color:#aaa; }
+    h1 {
+      font-size:46px; font-weight:300; letter-spacing:-1px; margin:36px 0 8px;
+      background:linear-gradient(135deg,#fff 0%,#a8d8ff 50%,#ff88ff 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+    }
+    .lede { color:#999; font-size:16px; margin-bottom:40px; letter-spacing:.3px; }
+    .section { margin-bottom:36px; }
+    .section h3 {
+      font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:#888;
+      font-weight:500; margin-bottom:14px;
+    }
+    .section p { color:#ddd; font-size:16px; margin-bottom:14px; }
+    .placeholder {
+      border:1px dashed rgba(255,255,255,.12); border-radius:8px; padding:28px 24px;
+      color:#666; font-size:15px; background:rgba(255,255,255,.015);
+    }
+    .divider { height:1px; background:rgba(255,255,255,.07); margin:40px 0; }
+    
+  </style>
+</head>
+<body>
+  <div class="gate" id="gate">
+    <div class="lock">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    </div>
+    <h2>Enter password to continue</h2>
+    <input id="pw" type="password" placeholder="Password" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button id="go">Unlock</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <main class="content" id="content">
+    <a class="back" href="/">&larr; The New God Flow</a>
+
+    <h1>The Author</h1>
+    <p class="lede">Michael Caswell</p>
+
+    <div class="section">
+      <h3>About</h3>
+      <div class="placeholder">Author bio goes here. Send Claude the copy you want and it gets dropped straight in.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h3>The New God Flow</h3>
+      <div class="placeholder">A short note on the book &mdash; what it is, why it exists. Replace this block with your words.</div>
+    </div>
+
+    <div class="section">
+      <h3>Elsewhere</h3>
+      <div class="placeholder">Links &mdash; socials, other work, contact. Tell Claude where they should point.</div>
+    </div>
+
+  </main>
+
+  <script>
+    var PW_HASH = 'cde4e100efd26f5b02fb484e30db927732ca192f1cd9975186510adec82b5c61';
+    var gate = document.getElementById('gate');
+    var content = document.getElementById('content');
+    var input = document.getElementById('pw');
+    var errEl = document.getElementById('err');
+
+    function reveal(){ gate.classList.add('hidden'); content.classList.add('shown'); }
+    if (sessionStorage.getItem('tngf_unlocked') === '1') { reveal(); }
+
+    async function sha256(s){
+      var buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    }
+    async function check(){
+      var h = await sha256(input.value.trim().toLowerCase());
+      if (h === PW_HASH){ sessionStorage.setItem('tngf_unlocked','1'); reveal(); }
+      else { errEl.textContent = 'Incorrect password'; input.value=''; input.focus(); }
+    }
+    document.getElementById('go').addEventListener('click', check);
+    input.addEventListener('keydown', function(e){ if(e.key==='Enter'){ check(); } });
+    input.focus();
+  </script>
+</body>
+</html>
