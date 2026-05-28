@@ -16,45 +16,56 @@
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
       line-height:1.7;
     }
-    .content { max-width:680px; margin:0 auto; padding:72px 24px 96px; animation:fade .5s ease; }
+    .content { max-width:620px; margin:0 auto; padding:64px 24px 96px; animation:fade .5s ease; }
     @keyframes fade { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
     .back { color:#777; text-decoration:none; font-size:13px; letter-spacing:.5px; transition:color .2s; }
     .back:hover { color:#aaa; }
+    .photo-wrap { margin:36px 0 14px; }
+    .photo-wrap img {
+      width:100%; border-radius:10px; display:block;
+      box-shadow:0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.05);
+    }
+    .caption { font-size:13px; color:#888; line-height:1.6; margin-bottom:44px; letter-spacing:.2px; }
+    .caption a { color:#a8d8ff; text-decoration:none; }
+    .caption a:hover { color:#cfe9ff; }
     h1 {
-      font-size:46px; font-weight:300; letter-spacing:-1px; margin:36px 0 8px;
+      font-size:44px; font-weight:300; letter-spacing:-1px; margin-bottom:24px;
       background:linear-gradient(135deg,#fff 0%,#a8d8ff 50%,#ff88ff 100%);
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     }
-    .lede { color:#999; font-size:16px; margin-bottom:40px; letter-spacing:.3px; }
-    .section { margin-bottom:36px; }
-    .section h3 { font-size:13px; text-transform:uppercase; letter-spacing:1.5px; color:#888; font-weight:500; margin-bottom:14px; }
-    .section p { color:#ddd; font-size:16px; margin-bottom:14px; }
-    .placeholder { border:1px dashed rgba(255,255,255,.12); border-radius:8px; padding:28px 24px; color:#666; font-size:15px; background:rgba(255,255,255,.015); }
-    .divider { height:1px; background:rgba(255,255,255,.07); margin:40px 0; }
+    .bio p { color:#ddd; font-size:16.5px; margin-bottom:18px; }
+    .first-book { color:#fff; font-weight:400; }
+    .first-book em { font-style:italic; color:#a8d8ff; -webkit-text-fill-color:#a8d8ff; }
+    .ig {
+      display:inline-block; margin-top:18px; padding:12px 22px;
+      border:1px solid rgba(255,255,255,.12); border-radius:8px;
+      background:rgba(255,255,255,.03); color:#fff; text-decoration:none;
+      font-size:14px; letter-spacing:.5px; transition:all .2s ease;
+    }
+    .ig:hover { border-color:rgba(0,212,255,.5); background:rgba(0,212,255,.05); }
   </style>
 </head>
 <body>
   <main class="content">
     <a class="back" href="/">&larr; The New God Flow</a>
 
+    <div class="photo-wrap">
+      <img src="/author-photo.jpg" alt="Michael Caswell (left) with Mr. Martini (right)">
+    </div>
+    <p class="caption">
+      Michael Caswell (left) with Mr. Martini (right) &mdash; owner of
+      <a href="https://instagram.com/mister_martini" target="_blank" rel="noopener">@mister_martini</a>,
+      Dipt in Vancouver, home of the VanCity Original brand and the heart and soul of the
+      Vancouver hip-hop community.
+    </p>
+
     <h1>The Author</h1>
-    <p class="lede">Michael Caswell</p>
 
-    <div class="section">
-      <h3>About</h3>
-      <div class="placeholder">Author bio goes here. Send Claude the copy you want and it gets dropped straight in.</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="section">
-      <h3>The New God Flow</h3>
-      <div class="placeholder">A short note on the book &mdash; what it is, why it exists. Replace this block with your words.</div>
-    </div>
-
-    <div class="section">
-      <h3>Elsewhere</h3>
-      <div class="placeholder">Links &mdash; socials, other work, contact. Tell Claude where they should point.</div>
+    <div class="bio">
+      <p class="first-book"><em>The New God Flow</em> is Michael Caswell's first book.</p>
+      <p>Born in the North of England and raised in the Cayman Islands, Michael now lives in Vancouver, BC. He spent eleven years as a video game developer and built a parallel career in concert photography, shooting for Scene in the Dark. He went on to found Shadowcaster Studios and works with the Three Links charity at the Odd Fellows building, with a background that also spans AV and operations management.</p>
+      <p>His focus now is on becoming a music producer &mdash; helping artists channel their music from God, as he has done himself. Michael has channeled both music and poetry, and credits God for everything he has done in his life and everything he will do in the future, inshallah.</p>
+      <a class="ig" href="https://instagram.com/caswell001" target="_blank" rel="noopener">@caswell001 &nbsp;&rarr;</a>
     </div>
   </main>
 </body>
