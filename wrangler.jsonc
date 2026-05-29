@@ -2,13 +2,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "thenewgodflow-web",
   "compatibility_date": "2026-05-28",
-  "observability": {
-    "enabled": true
-  },
+  "main": "worker.js",
+  "observability": { "enabled": true },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/admin/*"]
   },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "compatibility_flags": ["nodejs_compat"]
 }

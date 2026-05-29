@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin · The New God Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0a0a0a; color:#eee; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; min-height:100vh; line-height:1.5; font-size:14px; }
+  a { color:#a8d8ff; text-decoration:none; }
+  a:hover { color:#cfe9ff; }
+
+  /* login */
+  .login-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .login { width:100%; max-width:340px; text-align:center; }
+  .login h1 { font-family:'Oswald',sans-serif; font-size:28px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;
+    background:linear-gradient(135deg,#fff 0%,#a8d8ff 50%,#ff88ff 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .login p { color:#888; font-size:13px; margin-bottom:24px; }
+  .login input { width:100%; padding:13px 16px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:6px; color:#fff; font-size:15px; font-family:inherit; }
+  .login input:focus { outline:none; border-color:rgba(0,212,255,.6); }
+  .login button { margin-top:12px; width:100%; padding:13px; background:linear-gradient(135deg,#00d4ff,#a366ff); border:none; border-radius:6px; color:#000; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:1px; cursor:pointer; font-family:inherit; }
+  .login button:disabled { opacity:0.6; cursor:not-allowed; }
+  .login .err { color:#ff6b6b; margin-top:16px; font-size:13px; min-height:18px; }
+
+  /* dashboard */
+  .app { display:none; min-height:100vh; }
+  .app.shown { display:block; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; border-bottom:1px solid rgba(255,255,255,.08); position:sticky; top:0; background:rgba(10,10,10,.95); backdrop-filter:blur(8px); z-index:10; }
+  .brand { font-family:'Oswald',sans-serif; font-weight:700; font-size:18px; letter-spacing:1.5px; text-transform:uppercase; color:#fff; }
+  .brand small { color:#888; font-weight:500; font-size:12px; letter-spacing:1px; margin-left:8px; }
+  .tabs { display:flex; gap:4px; }
+  .tab { padding:8px 14px; border-radius:6px; cursor:pointer; color:#aaa; font-weight:500; font-size:13px; border:none; background:transparent; font-family:inherit; }
+  .tab:hover { color:#fff; background:rgba(255,255,255,.04); }
+  .tab.active { color:#fff; background:rgba(0,212,255,.1); }
+  .logout { padding:8px 14px; border:1px solid rgba(255,255,255,.12); border-radius:6px; background:transparent; color:#aaa; cursor:pointer; font-family:inherit; font-size:12px; }
+  .logout:hover { color:#fff; border-color:rgba(255,255,255,.25); }
+
+  main { max-width:1200px; margin:0 auto; padding:24px; }
+
+  /* stats */
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:24px; }
+  .stat { padding:18px 20px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.02); }
+  .stat .label { color:#888; font-size:11px; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .stat .value { font-size:28px; font-weight:300; color:#fff; }
+  .stat .value.green { color:#00ff88; }
+  .stat .value.red { color:#ff6b6b; }
+  .stat .value.blue { color:#a8d8ff; }
+
+  /* controls */
+  .controls { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; align-items:center; }
+  .controls input[type=text], .controls select { padding:9px 12px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:6px; color:#fff; font-family:inherit; font-size:13px; }
+  .controls input[type=text]:focus, .controls select:focus { outline:none; border-color:rgba(0,212,255,.5); }
+  .controls input[type=text] { flex:1; min-width:200px; }
+  .controls .right { margin-left:auto; display:flex; gap:8px; }
+  .btn { padding:9px 14px; border:1px solid rgba(255,255,255,.12); border-radius:6px; background:rgba(255,255,255,.03); color:#eee; cursor:pointer; font-family:inherit; font-size:13px; }
+  .btn:hover { border-color:rgba(0,212,255,.5); background:rgba(0,212,255,.05); }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .btn.primary { background:linear-gradient(135deg,#00d4ff,#a366ff); color:#000; border-color:transparent; font-weight:600; }
+  .btn.primary:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,212,255,.3); }
+  .btn.danger { color:#ff8888; border-color:rgba(255,107,107,.25); }
+  .btn.danger:hover { background:rgba(255,107,107,.1); border-color:rgba(255,107,107,.5); }
+
+  /* table */
+  .table-wrap { border:1px solid rgba(255,255,255,.08); border-radius:8px; overflow:hidden; background:rgba(255,255,255,.01); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { padding:11px 14px; text-align:left; border-bottom:1px solid rgba(255,255,255,.05); }
+  th { background:rgba(255,255,255,.03); color:#aaa; font-weight:500; font-size:11px; text-transform:uppercase; letter-spacing:1px; cursor:pointer; user-select:none; }
+  th:hover { color:#fff; }
+  th .arrow { color:#00d4ff; margin-left:4px; }
+  td { color:#ddd; }
+  tbody tr:hover { background:rgba(255,255,255,.02); }
+  .status-pill { display:inline-block; padding:2px 9px; border-radius:10px; font-size:11px; font-weight:500; }
+  .status-pill.active { background:rgba(0,255,136,.1); color:#00ff88; }
+  .status-pill.unsub { background:rgba(255,107,107,.1); color:#ff8888; }
+  .row-actions { white-space:nowrap; }
+  .row-actions button { padding:5px 9px; font-size:11px; margin-left:4px; }
+  .empty, .loading { padding:40px; text-align:center; color:#666; font-size:14px; }
+  .pagination { display:flex; gap:6px; justify-content:center; align-items:center; padding:14px; color:#888; font-size:13px; }
+  .pagination button { padding:6px 12px; }
+
+  /* author editor */
+  .editor { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media (max-width:900px) { .editor { grid-template-columns:1fr; } }
+  .editor h3 { font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:#888; font-weight:500; margin:14px 0 6px; }
+  .editor textarea, .editor input[type=text] { width:100%; padding:11px 13px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:6px; color:#fff; font-family:inherit; font-size:13.5px; line-height:1.6; resize:vertical; }
+  .editor textarea:focus, .editor input[type=text]:focus { outline:none; border-color:rgba(0,212,255,.5); }
+  .editor textarea { min-height:90px; }
+  .editor textarea.tall { min-height:160px; }
+  .editor .commit-row { margin-top:18px; padding-top:18px; border-top:1px solid rgba(255,255,255,.08); }
+  .editor .preview-frame { width:100%; height:700px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:#0a0a0a; }
+  .editor .preview-note { color:#666; font-size:12px; margin-bottom:8px; }
+  .toast { position:fixed; bottom:24px; right:24px; padding:14px 20px; background:#0d0d0d; border:1px solid rgba(0,212,255,.3); border-radius:8px; box-shadow:0 8px 32px rgba(0,0,0,.5); max-width:380px; z-index:100; opacity:0; transform:translateY(10px); transition:all .25s; pointer-events:none; }
+  .toast.shown { opacity:1; transform:translateY(0); pointer-events:auto; }
+  .toast.error { border-color:rgba(255,107,107,.5); }
+  .toast a { display:block; margin-top:6px; }
+
+  /* PRs list */
+  .prs { display:flex; flex-direction:column; gap:8px; }
+  .pr-item { padding:14px 16px; border:1px solid rgba(255,255,255,.08); border-radius:8px; background:rgba(255,255,255,.02); display:flex; align-items:center; justify-content:space-between; }
+  .pr-item .meta { color:#888; font-size:12px; margin-top:2px; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="login-wrap">
+  <form class="login" id="login-form" autocomplete="off">
+    <h1>Admin</h1>
+    <p>The New God Flow</p>
+    <input id="pw" type="password" placeholder="Password" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button type="submit" id="login-btn">Unlock</button>
+    <div class="err" id="login-err"></div>
+  </form>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="brand">Admin <small>The New God Flow</small></div>
+    <div class="tabs">
+      <button class="tab active" data-tab="subs">Subscribers</button>
+      <button class="tab" data-tab="author">Author page</button>
+      <button class="tab" data-tab="prs">Pending changes</button>
+    </div>
+    <button class="logout" id="logout">Log out</button>
+  </div>
+
+  <main>
+    <!-- SUBSCRIBERS TAB -->
+    <section class="tab-pane" id="pane-subs">
+      <div class="stats" id="stats"></div>
+      <div class="controls">
+        <input type="text" id="q" placeholder="Search email or name…">
+        <select id="filter-status">
+          <option value="all">All statuses</option>
+          <option value="active">Subscribed only</option>
+          <option value="unsub">Unsubscribed only</option>
+        </select>
+        <div class="right">
+          <button class="btn" id="refresh-btn">Refresh</button>
+          <button class="btn primary" id="export-btn">Export CSV</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-sort="email">Email <span class="arrow" id="sa-email"></span></th>
+              <th data-sort="first_name">First name <span class="arrow" id="sa-first_name"></span></th>
+              <th data-sort="created_at">Signed up <span class="arrow" id="sa-created_at">↓</span></th>
+              <th data-sort="unsubscribed">Status <span class="arrow" id="sa-unsubscribed"></span></th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </section>
+
+    <!-- AUTHOR EDITOR TAB -->
+    <section class="tab-pane" id="pane-author" style="display:none;">
+      <div class="editor">
+        <div>
+          <h3>Photo caption</h3>
+          <textarea id="f_caption" class="tall"></textarea>
+          <h3>First line (book title)</h3>
+          <textarea id="f_first_book"></textarea>
+          <h3>Paragraph 1</h3>
+          <textarea id="f_para1" class="tall"></textarea>
+          <h3>Paragraph 2</h3>
+          <textarea id="f_para2" class="tall"></textarea>
+          <h3>Closing paragraph</h3>
+          <textarea id="f_closing" class="tall"></textarea>
+          <h3>Connect heading</h3>
+          <input type="text" id="f_connect">
+          <h3>Instagram button (full HTML)</h3>
+          <textarea id="f_ig"></textarea>
+
+          <div class="commit-row">
+            <h3>Commit message (optional)</h3>
+            <input type="text" id="commit-msg" placeholder="e.g. Update closing paragraph">
+            <p style="color:#888; font-size:12px; margin:12px 0;">Changes don't deploy immediately. Saving opens a Pull Request on GitHub for you to review and merge. Once merged, the site rebuilds in about 30 seconds.</p>
+            <button class="btn primary" id="save-author">Open Pull Request</button>
+            <button class="btn" id="reload-author" style="margin-left:8px;">Reload from live</button>
+          </div>
+        </div>
+        <div>
+          <p class="preview-note">Live author page (refresh after merging a PR to see changes):</p>
+          <iframe class="preview-frame" src="/author/" id="preview"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRs TAB -->
+    <section class="tab-pane" id="pane-prs" style="display:none;">
+      <div class="controls">
+        <div style="color:#888; font-size:13px;">Open pull requests waiting for you to merge. Click "Open in GitHub" to review and merge.</div>
+        <div class="right"><button class="btn" id="refresh-prs">Refresh</button></div>
+      </div>
+      <div class="prs" id="prs"></div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const API_BASE = '/api/admin';
+  let PW = sessionStorage.getItem('tngf_admin_pw') || null;
+  let subs = [];
+  let sortKey = 'created_at';
+  let sortDir = 'desc';
+  let page = 1;
+  const PAGE_SIZE = 50;
+
+  // --- toast ---
+  let toastTimer;
+  function toast(msg, isError, url) {
+    const t = document.getElementById('toast');
+    t.innerHTML = msg + (url ? ' <a href="'+url+'" target="_blank" rel="noopener">Open in GitHub →</a>' : '');
+    t.className = 'toast shown' + (isError ? ' error' : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('shown'); }, url ? 9000 : 4500);
+  }
+
+  // --- API helper ---
+  async function api(method, path, body) {
+    const opt = { method, headers: { 'Authorization': 'Bearer ' + PW } };
+    if (body !== undefined) { opt.headers['Content-Type'] = 'application/json'; opt.body = JSON.stringify(body); }
+    const r = await fetch(API_BASE + path, opt);
+    let data; try { data = await r.json(); } catch { data = {}; }
+    if (r.status === 401) {
+      sessionStorage.removeItem('tngf_admin_pw'); PW = null;
+      document.getElementById('login-wrap').style.display = 'flex';
+      document.getElementById('app').classList.remove('shown');
+      throw new Error('Session expired');
+    }
+    if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+    return data;
+  }
+
+  // --- LOGIN ---
+  document.getElementById('login-form').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = document.getElementById('login-btn'), err = document.getElementById('login-err'), pwInput = document.getElementById('pw');
+    err.textContent = ''; btn.disabled = true;
+    PW = pwInput.value;
+    try {
+      await api('GET', '/ping');
+      sessionStorage.setItem('tngf_admin_pw', PW);
+      document.getElementById('login-wrap').style.display = 'none';
+      document.getElementById('app').classList.add('shown');
+      loadSubscribers();
+    } catch(ex){
+      err.textContent = 'Invalid password';
+      pwInput.value = ''; pwInput.focus();
+      PW = null;
+    }
+    btn.disabled = false;
+  });
+
+  document.getElementById('logout').addEventListener('click', function(){
+    sessionStorage.removeItem('tngf_admin_pw'); PW = null;
+    document.getElementById('login-wrap').style.display = 'flex';
+    document.getElementById('app').classList.remove('shown');
+    document.getElementById('pw').value = ''; document.getElementById('pw').focus();
+  });
+
+  // --- TABS ---
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+      t.classList.add('active');
+      document.querySelectorAll('.tab-pane').forEach(function(p){ p.style.display = 'none'; });
+      const id = 'pane-' + t.dataset.tab;
+      document.getElementById(id).style.display = 'block';
+      if (t.dataset.tab === 'author') loadAuthor();
+      if (t.dataset.tab === 'prs') loadPRs();
+    });
+  });
+
+  // --- SUBSCRIBERS ---
+  async function loadSubscribers() {
+    document.getElementById('rows').innerHTML = '<tr><td colspan="5" class="loading">Loading…</td></tr>';
+    document.getElementById('stats').innerHTML = '';
+    try {
+      const data = await api('GET', '/subscribers');
+      subs = data.contacts || [];
+      renderStats();
+      renderTable();
+    } catch(ex){
+      document.getElementById('rows').innerHTML = '<tr><td colspan="5" class="empty">Error: ' + ex.message + '</td></tr>';
+    }
+  }
+  function renderStats(){
+    const active = subs.filter(function(s){ return !s.unsubscribed; }).length;
+    const unsub = subs.length - active;
+    const now = Date.now();
+    const d7 = subs.filter(function(s){ return s.created_at && (now - new Date(s.created_at).getTime()) < 7*864e5; }).length;
+    const d30 = subs.filter(function(s){ return s.created_at && (now - new Date(s.created_at).getTime()) < 30*864e5; }).length;
+    document.getElementById('stats').innerHTML =
+      stat('Total', subs.length, '') +
+      stat('Subscribed', active, 'green') +
+      stat('Unsubscribed', unsub, 'red') +
+      stat('Last 7 days', d7, 'blue') +
+      stat('Last 30 days', d30, 'blue');
+  }
+  function stat(label, val, cls){
+    return '<div class="stat"><div class="label">'+label+'</div><div class="value '+cls+'">'+val+'</div></div>';
+  }
+  function filtered(){
+    const q = document.getElementById('q').value.trim().toLowerCase();
+    const fs = document.getElementById('filter-status').value;
+    return subs.filter(function(s){
+      if (fs === 'active' && s.unsubscribed) return false;
+      if (fs === 'unsub' && !s.unsubscribed) return false;
+      if (q) {
+        const hay = (s.email + ' ' + (s.first_name || '')).toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+  }
+  function sorted(arr){
+    return arr.slice().sort(function(a,b){
+      let av = a[sortKey], bv = b[sortKey];
+      if (sortKey === 'created_at') { av = av ? new Date(av).getTime() : 0; bv = bv ? new Date(bv).getTime() : 0; }
+      else { av = (av || '').toString().toLowerCase(); bv = (bv || '').toString().toLowerCase(); }
+      if (av < bv) return sortDir === 'asc' ? -1 : 1;
+      if (av > bv) return sortDir === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
+  function renderTable(){
+    const data = sorted(filtered());
+    const start = (page - 1) * PAGE_SIZE;
+    const slice = data.slice(start, start + PAGE_SIZE);
+    const tbody = document.getElementById('rows');
+    if (data.length === 0) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No subscribers match.</td></tr>'; document.getElementById('pagination').innerHTML = ''; return; }
+    tbody.innerHTML = slice.map(function(s){
+      const d = s.created_at ? new Date(s.created_at) : null;
+      const dateStr = d ? d.toISOString().slice(0,10) + ' ' + d.toISOString().slice(11,16) : '-';
+      const status = s.unsubscribed ? '<span class="status-pill unsub">Unsubscribed</span>' : '<span class="status-pill active">Subscribed</span>';
+      const safeEmail = escapeHtml(s.email || '');
+      return '<tr>' +
+        '<td>'+safeEmail+'</td>' +
+        '<td>'+escapeHtml(s.first_name || '')+'</td>' +
+        '<td style="white-space:nowrap;color:#aaa">'+dateStr+'</td>' +
+        '<td>'+status+'</td>' +
+        '<td class="row-actions">' +
+          '<button class="btn" onclick="copyEmail(\''+safeEmail+'\')">Copy</button>' +
+          (s.unsubscribed ? '' : '<button class="btn danger" onclick="unsubRow(\''+safeEmail+'\')">Unsubscribe</button>') +
+        '</td>' +
+      '</tr>';
+    }).join('');
+    const total = data.length, pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    document.getElementById('pagination').innerHTML =
+      '<button class="btn" '+(page<=1?'disabled':'')+' onclick="setPage('+(page-1)+')">←</button>' +
+      ' Page ' + page + ' of ' + pages + ' (' + total + ' rows) ' +
+      '<button class="btn" '+(page>=pages?'disabled':'')+' onclick="setPage('+(page+1)+')">→</button>';
+    // sort arrows
+    ['email','first_name','created_at','unsubscribed'].forEach(function(k){
+      document.getElementById('sa-'+k).textContent = (k === sortKey) ? (sortDir === 'asc' ? '↑' : '↓') : '';
+    });
+  }
+  window.setPage = function(p){ page = p; renderTable(); };
+  window.copyEmail = function(e){ navigator.clipboard.writeText(e).then(function(){ toast('Email copied'); }); };
+  window.unsubRow = async function(email){
+    if (!confirm('Manually unsubscribe ' + email + '?')) return;
+    try { await api('POST', '/unsubscribe', { email }); toast('Unsubscribed ' + email); loadSubscribers(); }
+    catch(ex){ toast('Error: ' + ex.message, true); }
+  };
+  document.querySelectorAll('th[data-sort]').forEach(function(th){
+    th.addEventListener('click', function(){
+      const k = th.dataset.sort;
+      if (sortKey === k) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+      else { sortKey = k; sortDir = k === 'created_at' ? 'desc' : 'asc'; }
+      page = 1; renderTable();
+    });
+  });
+  ['q','filter-status'].forEach(function(id){ document.getElementById(id).addEventListener('input', function(){ page = 1; renderTable(); }); });
+  document.getElementById('refresh-btn').addEventListener('click', loadSubscribers);
+  document.getElementById('export-btn').addEventListener('click', function(){
+    const data = sorted(filtered());
+    const rows = [['email','first_name','created_at','unsubscribed']].concat(data.map(function(s){
+      return [s.email||'', s.first_name||'', s.created_at||'', s.unsubscribed ? 'true' : 'false'];
+    }));
+    const csv = rows.map(function(r){ return r.map(function(c){ return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'thenewgodflow-subscribers-' + new Date().toISOString().slice(0,10) + '.csv';
+    a.click();
+  });
+  function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+  // --- AUTHOR EDITOR ---
+  const fieldMap = {
+    f_caption: 'caption_html',
+    f_first_book: 'first_book_html',
+    f_para1: 'para1_html',
+    f_para2: 'para2_html',
+    f_closing: 'closing_html',
+    f_connect: 'connect_heading',
+    f_ig: 'ig_button_html',
+  };
+  async function loadAuthor() {
+    try {
+      const data = await api('GET', '/author');
+      const f = data.fields || {};
+      for (const elId in fieldMap) {
+        const v = f[fieldMap[elId]] || '';
+        document.getElementById(elId).value = v;
+      }
+    } catch(ex){ toast('Error loading: ' + ex.message, true); }
+  }
+  document.getElementById('reload-author').addEventListener('click', loadAuthor);
+  document.getElementById('save-author').addEventListener('click', async function(){
+    const fields = {};
+    for (const elId in fieldMap) fields[fieldMap[elId]] = document.getElementById(elId).value;
+    const message = document.getElementById('commit-msg').value.trim();
+    const btn = document.getElementById('save-author'); btn.disabled = true; btn.textContent = 'Opening PR…';
+    try {
+      const r = await api('POST', '/author', { fields, message });
+      toast('Pull request #' + r.prNumber + ' opened. Review and merge to deploy.', false, r.prUrl);
+      document.getElementById('commit-msg').value = '';
+    } catch(ex){ toast('Error: ' + ex.message, true); }
+    btn.disabled = false; btn.textContent = 'Open Pull Request';
+  });
+
+  // --- PRs ---
+  async function loadPRs() {
+    const wrap = document.getElementById('prs');
+    wrap.innerHTML = '<div class="loading">Loading…</div>';
+    try {
+      const data = await api('GET', '/prs');
+      const prs = data.prs || [];
+      if (prs.length === 0) { wrap.innerHTML = '<div class="empty">No open pull requests.</div>'; return; }
+      wrap.innerHTML = prs.map(function(p){
+        const d = new Date(p.created).toISOString().slice(0,10);
+        return '<div class="pr-item"><div><div><strong>#'+p.number+'</strong> '+escapeHtml(p.title)+'</div><div class="meta">Branch '+escapeHtml(p.branch)+' · opened '+d+'</div></div><a class="btn primary" href="'+p.url+'" target="_blank" rel="noopener">Open in GitHub →</a></div>';
+      }).join('');
+    } catch(ex){ wrap.innerHTML = '<div class="empty">Error: ' + ex.message + '</div>'; }
+  }
+  document.getElementById('refresh-prs').addEventListener('click', loadPRs);
+
+  // auto-restore session if password stored
+  if (PW) {
+    (async function(){
+      try { await api('GET', '/ping');
+        document.getElementById('login-wrap').style.display = 'none';
+        document.getElementById('app').classList.add('shown');
+        loadSubscribers();
+      } catch(e) {
+        sessionStorage.removeItem('tngf_admin_pw'); PW = null;
+        document.getElementById('pw').focus();
+      }
+    })();
+  } else {
+    document.getElementById('pw').focus();
+  }
+})();
+</script>
+</body>
+</html>

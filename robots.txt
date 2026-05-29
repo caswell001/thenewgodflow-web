@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /ye
+Disallow: /admin
+Disallow: /api/
 
 Sitemap: https://www.thenewgodflow.com/sitemap.xml
