@@ -18,6 +18,10 @@
   <meta property="og:type" content="book">
   <meta property="og:site_name" content="The New God Flow">
   <link rel="canonical" href="https://www.thenewgodflow.com/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -83,29 +87,37 @@
     }
     
     h1 {
-      font-size: 48px;
-      font-weight: 300;
-      letter-spacing: -0.5px;
-      margin-bottom: 12px;
+      font-family: 'Oswald', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      line-height: 0.95;
+      text-transform: uppercase;
+      margin-bottom: 14px;
       background: linear-gradient(135deg, #ffffff 0%, #a8d8ff 50%, #ff88ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: shimmer 8s ease-in-out infinite;
     }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 52px; }
+    }
+
+    .subtitle {
+      font-family: 'Oswald', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      color: #cccccc;
+      margin-bottom: 14px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
     
     @keyframes shimmer {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.85; }
-    }
-    
-    .subtitle {
-      font-size: 17px;
-      color: #cccccc;
-      margin-bottom: 12px;
-      font-weight: 400;
-      letter-spacing: 0.5px;
-      font-style: italic;
     }
 
     .tagline {
