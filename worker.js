@@ -84,12 +84,33 @@ const REPO_NAME = "thenewgodflow-web";
 const AUTHOR_FIELDS = [
   { id: "caption_html", marker: ["<p class=\"caption\">", "</p>"] },
   { id: "first_book_html", marker: ["<p class=\"first-book\">", "</p>"] },
-  { id: "para1_html", marker: ["<!-- para1:start -->", "<!-- para1:end -->"] },
-  { id: "para2_html", marker: ["<!-- para2:start -->", "<!-- para2:end -->"] },
-  { id: "closing_html", marker: ["<!-- closing:start -->", "<!-- closing:end -->"] },
+  { id: "bio_plain", marker: ["<!-- bio:start -->", "<!-- bio:end -->"], isBio: true },
   { id: "connect_heading", marker: ["<p class=\"connect\">", "</p>"] },
   { id: "ig_button_html", marker: ["<a class=\"ig\"", "</a>"], includeMarkers: true },
 ];
+
+// Convert the bio HTML region (a series of <p>...</p>) into plain text
+// where blank lines separate paragraphs. Strips <p> tags only; preserves inline tags.
+function bioHtmlToPlain(html) {
+  if (!html) return "";
+  // Pull each <p>...</p> block
+  const paras = [];
+  const re = /<p[^>]*>([\s\S]*?)<\/p>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    paras.push(m[1].trim());
+  }
+  return paras.join("\n\n");
+}
+
+// Convert plain text (blank-line-separated paragraphs) into the bio HTML region.
+// Each non-empty block becomes a <p>...</p>. Leaves inline HTML the user typed alone.
+function bioPlainToHtml(plain) {
+  if (!plain) return "";
+  const blocks = plain.split(/\n\s*\n/).map((b) => b.trim()).filter(Boolean);
+  if (blocks.length === 0) return "";
+  return "\n      " + blocks.map((b) => `<p>${b}</p>`).join("\n      ") + "\n      ";
+}
 
 function extractFields(html) {
   const out = {};
@@ -100,6 +121,10 @@ function extractFields(html) {
     if (f.includeMarkers) {
       const j = html.indexOf(b, i);
       out[f.id] = j < 0 ? null : html.slice(i, j + b.length);
+    } else if (f.isBio) {
+      const start = i + a.length;
+      const j = html.indexOf(b, start);
+      out[f.id] = j < 0 ? null : bioHtmlToPlain(html.slice(start, j));
     } else {
       const start = i + a.length;
       const j = html.indexOf(b, start);
@@ -120,6 +145,11 @@ function replaceFields(html, fields) {
       const j = out.indexOf(b, i);
       if (j < 0) continue;
       out = out.slice(0, i) + fields[f.id] + out.slice(j + b.length);
+    } else if (f.isBio) {
+      const start = i + a.length;
+      const j = out.indexOf(b, start);
+      if (j < 0) continue;
+      out = out.slice(0, start) + bioPlainToHtml(fields[f.id]) + out.slice(j);
     } else {
       const start = i + a.length;
       const j = out.indexOf(b, start);

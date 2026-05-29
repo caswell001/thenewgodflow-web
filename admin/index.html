@@ -170,12 +170,9 @@
           <textarea id="f_caption" class="tall"></textarea>
           <h3>First line (book title)</h3>
           <textarea id="f_first_book"></textarea>
-          <h3>Paragraph 1</h3>
-          <textarea id="f_para1" class="tall"></textarea>
-          <h3>Paragraph 2</h3>
-          <textarea id="f_para2" class="tall"></textarea>
-          <h3>Closing paragraph</h3>
-          <textarea id="f_closing" class="tall"></textarea>
+          <h3>Bio (separate paragraphs with a blank line)</h3>
+          <textarea id="f_bio" style="min-height:340px;"></textarea>
+          <p style="color:#888; font-size:12px; margin:-8px 0 14px;">Each paragraph is a block of text. Press Enter twice to start a new paragraph. Inline HTML like &lt;em&gt;italic&lt;/em&gt; or links works inside a paragraph; don't add &lt;p&gt; tags yourself.</p>
           <h3>Connect heading</h3>
           <input type="text" id="f_connect">
           <h3>Instagram button (full HTML)</h3>
@@ -404,9 +401,7 @@
   const fieldMap = {
     f_caption: 'caption_html',
     f_first_book: 'first_book_html',
-    f_para1: 'para1_html',
-    f_para2: 'para2_html',
-    f_closing: 'closing_html',
+    f_bio: 'bio_plain',
     f_connect: 'connect_heading',
     f_ig: 'ig_button_html',
   };
