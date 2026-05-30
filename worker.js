@@ -177,9 +177,30 @@ async function gh(env, method, path, body) {
   return { status: r.status, ok: r.ok, data };
 }
 
+function ghErr(prefix, ghResp) {
+  // Turn the response object into a single human-readable string
+  const d = ghResp && ghResp.data;
+  let detail = "";
+  if (d) {
+    if (typeof d === "string") detail = d;
+    else if (d.message) {
+      detail = d.message;
+      if (Array.isArray(d.errors) && d.errors.length) {
+        detail += ": " + d.errors.map((e) => e.message || e.code || JSON.stringify(e)).join(", ");
+      }
+    } else if (d.raw) {
+      detail = String(d.raw).slice(0, 300);
+    } else {
+      detail = JSON.stringify(d).slice(0, 300);
+    }
+  }
+  const status = ghResp && ghResp.status ? ` [HTTP ${ghResp.status}]` : "";
+  return `${prefix}${status}${detail ? ": " + detail : ""}`;
+}
+
 async function getAuthorHtmlFromMain(env) {
   const r = await gh(env, "GET", `/repos/${REPO_OWNER}/${REPO_NAME}/contents/author/index.html?ref=main`);
-  if (!r.ok) return { ok: false, error: r.data };
+  if (!r.ok) return { ok: false, error: ghErr("Could not read author page", r) };
   return { ok: true, content: atob(r.data.content.replace(/\n/g, "")), sha: r.data.sha };
 }
 
@@ -191,11 +212,12 @@ async function openAuthorPR(env, fields, commitMessage) {
   if (newHtml === cur.content) return { ok: false, error: "No changes detected" };
 
   const ts = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-  const branch = `admin/author-${ts}`;
+  const rand = Math.random().toString(36).slice(2, 7);
+  const branch = `admin/author-${ts}-${rand}`;
 
   // get main sha
   const ref = await gh(env, "GET", `/repos/${REPO_OWNER}/${REPO_NAME}/git/ref/heads/main`);
-  if (!ref.ok) return { ok: false, error: ref.data };
+  if (!ref.ok) return { ok: false, error: ghErr("Could not read main branch", ref) };
   const parentSha = ref.data.object.sha;
 
   // create branch
@@ -203,7 +225,7 @@ async function openAuthorPR(env, fields, commitMessage) {
     ref: `refs/heads/${branch}`,
     sha: parentSha,
   });
-  if (!newRef.ok) return { ok: false, error: newRef.data };
+  if (!newRef.ok) return { ok: false, error: ghErr("Could not create branch", newRef) };
 
   // update file on branch
   const upd = await gh(env, "PUT", `/repos/${REPO_OWNER}/${REPO_NAME}/contents/author/index.html`, {
@@ -212,7 +234,7 @@ async function openAuthorPR(env, fields, commitMessage) {
     sha: cur.sha,
     branch,
   });
-  if (!upd.ok) return { ok: false, error: upd.data };
+  if (!upd.ok) return { ok: false, error: ghErr("Could not commit file", upd) };
 
   // open PR
   const pr = await gh(env, "POST", `/repos/${REPO_OWNER}/${REPO_NAME}/pulls`, {
@@ -221,7 +243,7 @@ async function openAuthorPR(env, fields, commitMessage) {
     base: "main",
     body: "Edit made via /admin dashboard. Merge to deploy.\n\nReview the diff before merging.",
   });
-  if (!pr.ok) return { ok: false, error: pr.data };
+  if (!pr.ok) return { ok: false, error: ghErr("Could not open pull request", pr) };
 
   return { ok: true, prNumber: pr.data.number, prUrl: pr.data.html_url, branch };
 }
@@ -229,7 +251,7 @@ async function openAuthorPR(env, fields, commitMessage) {
 async function listOpenPRs(env) {
   if (!env.GITHUB_PAT) return { ok: false, error: "GITHUB_PAT not configured" };
   const r = await gh(env, "GET", `/repos/${REPO_OWNER}/${REPO_NAME}/pulls?state=open&per_page=20`);
-  if (!r.ok) return { ok: false, error: r.data };
+  if (!r.ok) return { ok: false, error: ghErr("Could not list PRs", r) };
   return {
     ok: true,
     prs: (r.data || []).map((p) => ({
